@@ -1,0 +1,23 @@
+{
+  "name": "PlanWise by Dove Financial",
+  "short_name": "PlanWise",
+  "description": "A focused financial planning tool for tracking income, expenses, savings goals, and bills in one clear monthly system.",
+  "theme_color": "#0f172a",
+  "background_color": "#f8fafc",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
