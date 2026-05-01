@@ -162,10 +162,7 @@ const monthIncomes = useMemo(
 [data.incomes, data.selectedMonth]
 );
 
-const monthExpenses = useMemo(
-() => data.expenses.filter((e) => isSameMonth(e.date, data.selectedMonth)),
-[data.expenses, data.selectedMonth]
-);
+
 
 const monthBills = useMemo(
 () => data.bills.filter((b) => isSameMonth(b.dueDate, data.selectedMonth)),
