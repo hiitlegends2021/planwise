@@ -351,7 +351,8 @@ Start Planning
 }
 
 return (
-<div style={styles.appShell}>
+  <div style={{ padding: 40 }}>
+    <h1 style={{ color: "red" }}>TEST PLANWISE</h1>
 <div style={styles.appFrame}>
 <header style={styles.header}>
 <div style={styles.brandRow}>
