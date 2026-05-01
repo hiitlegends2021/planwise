@@ -57,6 +57,28 @@ label: d.toLocaleDateString("en-US", { month: "long", year: "numeric" }),
 });
 
 export default function App() {
+
+const [showEmailForm, setShowEmailform] = useState(false);
+const [emailInput, setEmailInput] = useState("");
+const [emailCaptured, setEmailCaptured] = useState(false);
+
+const submitEmailCapture = (e) => {
+  e.preventDefault();
+
+  if (!emailInput || !emailInput.includes("@")) {
+    showToast("Enter a valid email");
+    return;
+  }
+
+  localStorage.setItem("planwise_email_joined", "true");
+  localStorage.setItem("planwise_email", emailInput);
+
+  setEmailCaptured(true);
+  setEmailInput("");
+
+  showToast("Your PlanWise summary is ready");
+};
+const monthExpenses = useMemo
 const [activeTab, setActiveTab] = useState("dashboard");
 const [menuOpen, setMenuOpen] = useState(false);
 const [toast, setToast] = useState("");
@@ -68,7 +90,7 @@ async function submitEmail(e) {
 e.preventDefault();
 
 try {
-  const res = await fetch("http://localhost:3001/api/subscribe", {
+  const res = await fetch("http://formspree.io/f/mvvaayzk", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -475,45 +497,70 @@ onClick={() => setActiveTab(tab)}
 </div>
 
 
-{showEmailPopup && (
+{showEmailForm && (
   <div style={styles.emailOverlay}>
     <div style={styles.emailModal}>
       <button
         type="button"
         style={styles.emailClose}
-        onClick={() => setShowEmailPopup(false)}
+        onClick={() => setShowEmailForm(false)}
       >
         ×
       </button>
 
       <div style={styles.emailBadge}>PlanWise Free</div>
 
-      <h2 style={styles.emailTitle}>
-        Get early access to smarter money tools
-      </h2>
+      {!emailCaptured ? (
+        <>
+          <h2 style={styles.emailTitle}>Want your full breakdown?</h2>
 
-      <p style={styles.emailText}>
-        Join the PlanWise list for budgeting tips, product updates, and first
-        access to PlanWise Pro features like smart allocations, bank sync,
-        and AI guidance.
-      </p>
+          <p style={styles.emailText}>
+            Send your PlanWise summary to your email and unlock your next smart
+            money move.
+          </p>
 
-      <button
-        type="button"
-        style={styles.emailButton}
-        onClick={openBrevoForm}
-      >
-        Join Free
-      </button>
+          <form onSubmit={submitEmailCapture}>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              value={emailInput}
+              onChange={(e) => setEmailInput(e.target.value)}
+              style={styles.emailInput}
+              required
+            />
 
-      <div style={styles.emailTrust}>
-        ✔ Secure • ✔ No spam • ✔ Unsubscribe anytime
-      </div>
+            <button type="submit" style={styles.emailButton}>
+              Send My Plan
+            </button>
+          </form>
+
+          <div style={styles.emailTrust}>
+            ✓ Secure • ✓ No spam • ✓ Unsubscribe anytime
+          </div>
+        </>
+      ) : (
+        <>
+          <h2 style={styles.emailTitle}>You’re in.</h2>
+
+          <p style={styles.emailText}>
+            Your PlanWise summary is ready. Your next smart money move: review
+            your cash flow, assign every leftover dollar, and build from clarity.
+          </p>
+
+          <button
+            type="button"
+            style={styles.emailButton}
+            onClick={() => setShowEmailForm(false)}
+          >
+            Continue Planning
+          </button>
+        </>
+      )}
 
       <button
         type="button"
         style={styles.emailSkip}
-        onClick={() => setShowEmailPopup(false)}
+        onClick={() => setShowEmailForm(false)}
       >
         Continue Free
       </button>

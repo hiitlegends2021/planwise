@@ -9,9 +9,8 @@
       "DOM.Iterable",
       "ESNext"
     ],
-    "types": [
-      "vite/client"
-    ],
+    
+    
     "noEmit": true,
     "skipLibCheck": true,
     "esModuleInterop": true
