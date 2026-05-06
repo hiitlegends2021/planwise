@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-const FORM_ENDPOINT = "https://formspree.io/f/mvvaayzk";
+const FORM_ENDPOINT = "https://formspree.io/f/mqenabad";
 
 export default function App() {
   const [email, setEmail] = useState("");
