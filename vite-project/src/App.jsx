@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const FORM_ENDPOINT = "https://formspree.io/f/mqenabad";
 
@@ -13,6 +13,20 @@ export default function App() {
   const [expenseName, setExpenseName] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
   const [expenses, setExpenses] = useState([]);
+
+  useEffect(() => {
+    const savedIncome = localStorage.getItem("planwise_income");
+    const savedExpenses = localStorage.getItem("planwise_expenses");
+
+    if (savedIncome) setIncome(savedIncome);
+    if (savedExpenses) setExpenses(JSON.parse(savedExpenses));
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("planwise_income", income);
+    localStorage.setItem("planwise_expenses", JSON.stringify(expenses));
+  }, [income, expenses]);
+
 
   const totalIncome = Number(income || 0);
   const totalExpenses = useMemo(
@@ -73,7 +87,10 @@ export default function App() {
     setExpenseAmount("");
     showToast("Expense added");
   }
-
+  function deleteExpense(id) {
+  setExpenses((prev) => prev.filter((item) => item.id !== id));
+  showToast("Expense removed");
+}
   function resetPlan() {
     setIncome("");
     setExpenseName("");
@@ -175,7 +192,13 @@ export default function App() {
             {expenses.map((item) => (
               <div key={item.id} style={styles.expenseRow}>
                 <span>{item.name}</span>
-                <strong>${Number(item.amount).toFixed(2)}</strong>
+
+                <div style={styles.expenseActions}>
+                  <strong>${Number(item.amount).toFixed(2)}</strong>
+                  <button style={styles.deleteButton} onClick={() => deleteExpense(item.id)}>
+                    Delete
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -430,5 +453,19 @@ const styles = {
     borderRadius: "14px",
     fontWeight: 900,
     zIndex: 99,
+  },
+  expenseActions: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+  },
+  deleteButton: {
+    border: "none",
+    background: "#7f1d1d",
+    color: "#fff",
+    padding: "8px 10px",
+    borderRadius: "10px",
+    cursor: "pointer",
+    fontWeight: 800,
   },
 };
